@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View User Posts</title>
+</head>
+<body>
+  <form action = "ViewUserPosts.php" method="post" name="form" >
+    <label for="users">Choose a user to view posts:</label>
+    <select name="users" id="users">
+
+        <?php $mysqli = new mysqli("mysql.eecs.ku.edu", "j811s905", "Wo7keeha",
+        "j811s905");
+
+        /* check connection */
+        if ($mysqli->connect_errno) {
+          printf("Connect failed: %s\n", $mysqli->connect_error);
+          exit();
+        }
+
+        $query = "SELECT * FROM Users;";
+        if ($result = $mysqli->query($query)) {
+            while ($row = $result->fetch_assoc()) {
+            $value = $row["user_id"];
+            echo "<option value=$value>$value</option>";
+            }
+            /* free result set */
+            $result->free();
+            }?>
+      </select>
+                        <br><input type="submit" value = "Submit">
+        </form>
+</body>
+</html>

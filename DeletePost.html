@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Posts</title>
+</head>
+<body>
+  <table border='1'>
+    <form action = "DeletePost.php" method="post" name="form" >
+      <tr>
+          <td><h3>post_id</h3></h3>
+          <td><h3>content</h3></td>
+          <td><h3>author</h3></td>
+          <td><h3>Delete?</h3></td>
+      </tr>
+      <?php $mysqli = new mysqli("mysql.eecs.ku.edu", "j811s905", "Wo7keeha",
+      "j811s905");
+
+      /* check connection */
+      if ($mysqli->connect_errno) {
+        printf("Connect failed: %s\n", $mysqli->connect_error);
+        exit();
+      }
+
+      $query = "SELECT * FROM Posts WHERE author_id IN (SELECT * FROM Users);";
+      if ($result = $mysqli->query($query)) {
+          while ($row = $result->fetch_assoc()) {
+              $id = $row["post_id"];
+              $post = $row["content"];
+              $author = $row["author_id"];
+              echo "
+                <td>$id</td>
+                <td>$post</td>
+                <td>$author</td>
+                <td>  <input value='$id' name ='delete[]' type='checkbox'/><tr></td>
+              </tr>";
+          }
+          /* free result set */
+          $result->free();
+          }?>
+    </table>
+    <br><input type="submit" value = "Submit">
+</form>
+</body>
+</html>
